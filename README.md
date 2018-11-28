@@ -8,16 +8,18 @@ Requirements
 ------------
 
 -   PHP 7.0+
--   [PHP GraphQL](https://github.com/webonyx/graphql-php)
+-   [PHP Webonyx GraphQL](https://github.com/webonyx/graphql-php)
+
 
 Installation
 ------------
 
--   using [composer] (http://getcomposer.org): `composer require stagem/php-graphql-scalars`
+-   using [composer](http://getcomposer.org): `composer require stagem/php-graphql-scalars`
 
--   using other [PSR-4] (http://www.php-fig.org/psr/psr-4/) compliant autoloader:
+-   using other [PSR-4](http://www.php-fig.org/psr/psr-4/) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 
     "\Stagem\GraphQL" namespace in the "src" directory of this project
+
 
 Available types
 ------------
@@ -25,6 +27,7 @@ Available types
 -   DateTimeType
 -   IterableType (alias JsonType)
 -   EmailType
+
 
 Usage
 -----
@@ -101,7 +104,6 @@ $queryType = new ObjectType([
 
 That way it is not necessary to annotate every single getter returning one of the configured type. 
 It will be mapped automatically.
-
 
 
 Contributing
