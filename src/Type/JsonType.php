@@ -26,7 +26,7 @@ class JsonType extends IterableType
     /**
      * @var string
      */
-    public $name = 'JsonType';
+    public $name = 'Json';
 
     /**
      * @var string
