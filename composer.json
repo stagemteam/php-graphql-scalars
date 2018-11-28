@@ -1,0 +1,28 @@
+{
+  "name": "stagem/php-graphql-scalars",
+  "description": "PHP library of custom GraphQL Scalars for creating precise type-safe GraphQL schemas",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "graphql",
+    "scalars",
+    "custom types",
+  ],
+  "authors": [
+    {
+      "name": "Serhii Popov",
+      "email": "popow.serhii@gmail.com",
+      "homepage": "http://stagem.com.ua/",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Stagem\\GraphQL\\": "src/"
+    }
+  }
+}
