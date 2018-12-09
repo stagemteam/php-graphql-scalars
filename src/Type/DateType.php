@@ -27,22 +27,23 @@ use GraphQL\Type\Definition\ScalarType;
  *
  * @experimental
  */
-class DateTimeType extends ScalarType
+class DateType extends ScalarType
 {
+    const DATE_FORMAT = 'Y-m-d';
     /**
      * @var string
      */
-    public $name = 'DateTime';
+    public $name = 'Date';
 
     /**
      * @var string
      */
-    public $description = 'The `DateTime` scalar type represents time data, represented as an ISO-8601 encoded UTC date string.';
+    public $description = 'The `Date` scalar type represents date data in format "2012-12-31"';
 
     public function serialize($value)
     {
         if ($value instanceof DateTime) {
-            return $value->format(DateTime::ATOM);
+            return $value->format(self::DATE_FORMAT);
         }
 
         return $value;
@@ -54,7 +55,9 @@ class DateTimeType extends ScalarType
      */
     public function parseValue($value): ?DateTime
     {
-        return self::parseIso8601($value) ?: null;
+        $dt = DateTime::createFromFormat(self::DATE_FORMAT, $value);
+
+        return $dt ? $dt->setTime(0, 0) : null;
     }
 
     /**
@@ -72,23 +75,6 @@ class DateTimeType extends ScalarType
         }
 
         return $valueNode->value;
-    }
-
-    static public function parseIso8601($iso8601String)
-    {
-        $results = [];
-        $results[] = DateTime::createFromFormat('Y-m-d\TH:i:s', $iso8601String);
-        $results[] = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $iso8601String);
-        $results[] = DateTime::createFromFormat('Y-m-d\TH:i:s.uP', $iso8601String);
-        $results[] = DateTime::createFromFormat('Y-m-d\TH:i:sP', $iso8601String);
-        $results[] = DateTime::createFromFormat(DateTime::ATOM, $iso8601String);
-
-        $success = array_values(array_filter($results));
-        if (count($success) > 0) {
-            return $success[0];
-        }
-
-        return false;
     }
 }
 
