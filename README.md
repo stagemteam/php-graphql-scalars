@@ -29,20 +29,21 @@ Available types
 -   IterableType
 -   JsonType
 -   EmailType
+-   SimpleObjectType
 
 
-###Date
+### DateType
 A date string, such as 2012-12-31, compliant with the full-date format outlined in section 5.6 of the [RFC 3339](https://github.com/excitement-engineer/graphql-iso-date/blob/master/rfc3339.txt) profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 
 This scalar is a description of the date, as used for birthdays for example. It cannot represent an instant on the time-line.
 
-###DateTimeType
+### DateTimeType
 The `DateTime` scalar type represents time data, represented as an [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) encoded UTC date string.
 
-####Result Coercion
+#### Result Coercion
 PHP `DateTime` instances are coerced to an `DateTime::ATOM` (RFC 3339) compliant date string.
 
-####Input Coercion
+#### Input Coercion
 When expected as an input type, most of valid ISO-8601 compliant date strings are accepted.
 
 All next formats are valid and will be successfully parsed:
@@ -51,9 +52,12 @@ All next formats are valid and will be successfully parsed:
 - "2010-12-07T23:00:00Z"
 - "2010-12-07T23:00:00+01:00"
 
-
-###IterableType & JsonType
+### IterableType & JsonType
 Any valid JSON format.
+
+### SimpleObjectType
+Any valid PHP object which can be converted to array. 
+Additionally support `asArray` and `toArray` methods for conversion.
 
 
 Usage
