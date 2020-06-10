@@ -7,7 +7,7 @@ Custom GraphQL Scalars for creating precise type-safe GraphQL schemas.
 Requirements
 ------------
 
--   PHP 7.0+
+-   PHP 7.2+
 -   [PHP Webonyx GraphQL](https://github.com/webonyx/graphql-php)
 
 
@@ -41,7 +41,7 @@ This scalar is a description of the date, as used for birthdays for example. It 
 The `DateTime` scalar type represents time data, represented as an [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) encoded UTC date string.
 
 #### Result Coercion
-PHP `DateTime` instances are coerced to an `DateTime::ATOM` (RFC 3339) compliant date string.
+PHP `DateTime` or `DateTimeImmutable` instances are coerced to a `DateTimeInterface::ATOM` (RFC 3339) compliant date string.
 
 #### Input Coercion
 When expected as an input type, most of valid ISO-8601 compliant date strings are accepted.

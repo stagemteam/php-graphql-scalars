@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace Stagem\GraphQL\Type;
 
 use DateTime;
+use DateTimeInterface;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Language\AST\Node;
 use GraphQL\Type\Definition\ScalarType;
+use GraphQL\Utils\Utils;
 
 /**
  * Represent native PHP DateTime
@@ -39,13 +41,20 @@ class DateTimeType extends ScalarType
      */
     public $description = 'The `DateTime` scalar type represents time data, represented as an ISO-8601 encoded UTC date string.';
 
+    /**
+     * Serializes an internal value to include in a response.
+     *
+     * @param mixed $value
+     * @return mixed
+     * @throws Error If the provided value does not implement DateTimeInterface.
+     */
     public function serialize($value)
     {
-        if ($value instanceof DateTime) {
-            return $value->format(DateTime::ATOM);
+        if (!($value instanceof DateTimeInterface)) {
+            throw new Error(sprintf('DateTime cannot represent non DateTime value: %s', Utils::printSafe($value)));
         }
 
-        return $value;
+        return $value->format(DateTimeInterface::ATOM);
     }
 
     /**
@@ -81,7 +90,7 @@ class DateTimeType extends ScalarType
         $results[] = DateTime::createFromFormat('Y-m-d\TH:i:s.u', $iso8601String);
         $results[] = DateTime::createFromFormat('Y-m-d\TH:i:s.uP', $iso8601String);
         $results[] = DateTime::createFromFormat('Y-m-d\TH:i:sP', $iso8601String);
-        $results[] = DateTime::createFromFormat(DateTime::ATOM, $iso8601String);
+        $results[] = DateTime::createFromFormat(DateTimeInterface::ATOM, $iso8601String);
 
         $success = array_values(array_filter($results));
         if (count($success) > 0) {
@@ -91,5 +100,3 @@ class DateTimeType extends ScalarType
         return false;
     }
 }
-
-
