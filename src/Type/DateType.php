@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace Stagem\GraphQL\Type;
 
 use DateTime;
+use DateTimeInterface;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Language\AST\Node;
 use GraphQL\Type\Definition\ScalarType;
+use GraphQL\Utils\Utils;
 
 /**
  * Represent native PHP DateTime
@@ -40,13 +42,20 @@ class DateType extends ScalarType
      */
     public $description = 'The `Date` scalar type represents date data in format "2012-12-31"';
 
+    /**
+     * Serializes an internal value to include in a response.
+     *
+     * @param mixed $value
+     * @return mixed
+     * @throws Error If the provided value does not implement DateTimeInterface.
+     */
     public function serialize($value)
     {
-        if ($value instanceof DateTime) {
-            return $value->format(self::DATE_FORMAT);
+        if (!($value instanceof DateTimeInterface)) {
+            throw new Error(sprintf('Date cannot represent non DateTime value: %s', Utils::printSafe($value)));
         }
 
-        return $value;
+        return $value->format(self::DATE_FORMAT);
     }
 
     /**
@@ -77,5 +86,3 @@ class DateType extends ScalarType
         return $valueNode->value;
     }
 }
-
-

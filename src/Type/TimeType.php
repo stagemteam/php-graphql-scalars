@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace Stagem\GraphQL\Type;
 
 use DateTime;
+use DateTimeInterface;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
+use GraphQL\Utils\Utils;
 
 class TimeType extends ScalarType
 {
@@ -40,16 +42,17 @@ class TimeType extends ScalarType
      *
      * @param mixed $value
      * @return mixed
-     * @throws Error
+     * @throws Error If the provided value does not implement DateTimeInterface.
      */
     public function serialize($value)
     {
-        if ($value instanceof DateTime) {
-            return $value->format(self::TIME_FORMAT);
+        if (!($value instanceof DateTimeInterface)) {
+            throw new Error(sprintf('Date cannot represent non DateTime value: %s', Utils::printSafe($value)));
         }
 
-        return $value;
+        return $value->format(self::TIME_FORMAT);
     }
+
     /**
      * Parses an externally provided value (query variable) to use as an input
      * In the case of an invalid value this method must throw an Exception
